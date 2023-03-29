@@ -4,19 +4,17 @@ import {
 	Text,
 	Textarea,
 	Flex,
-	Table,
-	TableContainer,
-	TableCaption,
-	Thead,
-	Tr,
-	Th,
-	Tbody,
-	Td,
 	Spacer,
     VStack
 } from '@chakra-ui/react';
+import ParserTableModel from "./ParserTableModel";
+import ParserTable from "./ParserTable";
+import ParserRow from "./ParserRow";
 
 function App() {
+
+	const tableModel = new ParserTableModel([new ParserRow(0, ['S'], ['S'])]);
+
 	return (
 		<div className="App">
 			<Text>Welcome to my Shift Reduce Parser!</Text>
@@ -33,35 +31,8 @@ function App() {
 				<VStack w={'40%'}>
 					<Text fontSize={'lg'}>Parser Table</Text>
 
-					<TableContainer >
-					<Table variant='simple' size={'sm'}>
-						<TableCaption>Generated from the Input Grammar</TableCaption>
-						<Thead>
-							<Tr>
-								<Th>Action</Th>
-								<Th></Th>
-								<Th>Goto</Th>
-							</Tr>
-						</Thead>
-						<Tbody>
-							<Tr>
-								<Td>State</Td>
-								<Td></Td>
-								<Td></Td>
-							</Tr>
-							<Tr>
-								<Td>0</Td>
-								<Td></Td>
-								<Td ></Td>
-							</Tr>
-							<Tr>
-								<Td>1</Td>
-								<Td></Td>
-								<Td></Td>
-							</Tr>
-						</Tbody>
-					</Table>
-				</TableContainer>
+					<ParserTable table={tableModel}/>
+
 				</VStack>
 
 			</Flex>
