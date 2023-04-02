@@ -8,24 +8,70 @@ interface RTable {
 
 function ParserTable({table}: RTable) {
 
-	const rows = table.rows.map((row) => {
+	const rows = table.states.map((state) => {
 
-		const actionItems = row.actions.map((actions) => {
-			return <Td>{actions}</Td>;
-		});
+		const actions = [];
+		// For each key in the actions list, create a new td with the value
+		for (const value of Object.values(state.action)) {
+			actions.push(<Td>{value}</Td>)
+		}
 
-		const goToItems = row.goTo.map((goTo) => {
-			return <Td>{goTo}</Td>;
-		});
+		const gotoLabels = [];
+		// For each key in the goTo list, create a new td with the value
+		for (const value of Object.values(state.goTo)) {
+
+			if (value === -1) {
+				gotoLabels.push(<Td></Td>)
+			} else
+			gotoLabels.push(<Td>{value}</Td>)
+		}
 
 		return (
 			<Tr>
-				<Td>{row.state}</Td>
-				{actionItems}
-				{goToItems}
+				<Td>{state.state}</Td>
+				{actions}
+				<Td></Td>
+				<Td></Td>
+				<Td></Td>
+				{gotoLabels}
 			</Tr>
 		);
 	});
+
+	// Make a list that contains all the action ids
+	const actionIds = table.actionIds.map((id) => {
+
+		return (
+			<Td>
+				{id}
+			</Td>
+		)
+
+	});
+
+	// Make a list that contains all the goto ids
+	const gotoIds = table.goToIds.map((id) => {
+
+		return (
+			<Td>
+				{id}
+			</Td>
+		)
+
+	});
+
+	// Make a header row that contains all the action ids and goto ids
+	const header = (
+		<Tr>
+			<Td>State</Td>
+			{actionIds}
+			<Td></Td>
+			<Td></Td>
+			<Td></Td>
+			{gotoIds}
+		</Tr>
+	);
+
 
 	return (
 
@@ -34,17 +80,24 @@ function ParserTable({table}: RTable) {
 				<TableCaption>Generated from the Input Grammar</TableCaption>
 				<Thead>
 					<Tr>
-						<Th>Action</Th>
+						<Td></Td>
 						<Th></Th>
-						<Th>Goto</Th>
+						<Th></Th>
+						<Td>Action</Td>
+						<Th></Th>
+						<Th></Th>
+						<Th></Th>
+						<Th></Th>
+						<Th></Th>
+						<Th></Th>
+						<Th></Th>
+						<Td>Goto</Td>
+						<Td></Td>
+
 					</Tr>
 				</Thead>
 				<Tbody>
-					<Tr>
-						<Td>State</Td>
-						<Td></Td>
-						<Td></Td>
-					</Tr>
+					{header}
 					{rows}
 				</Tbody>
 			</Table>

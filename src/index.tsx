@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ChakraProvider } from '@chakra-ui/react';
+import {ChakraProvider} from '@chakra-ui/react';
+import {DevSupport} from "@react-buddy/ide-toolbox";
+import {ComponentPreviews, useInitial} from "./dev";
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -11,7 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<ChakraProvider>
-			<App />
+			<DevSupport ComponentPreviews={ComponentPreviews}
+			            useInitialHook={useInitial}
+			>
+				<App/>
+			</DevSupport>
 		</ChakraProvider>
 	</React.StrictMode>
 );
