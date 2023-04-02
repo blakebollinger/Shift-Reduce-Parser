@@ -6,13 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import {ChakraProvider} from '@chakra-ui/react';
 import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews, useInitial} from "./dev";
+import { theme } from "./Card";
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 root.render(
 	<React.StrictMode>
-		<ChakraProvider>
+		<ChakraProvider theme={theme}>
 			<DevSupport ComponentPreviews={ComponentPreviews}
 			            useInitialHook={useInitial}
 			>
