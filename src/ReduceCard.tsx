@@ -12,17 +12,22 @@ import {
 import React from "react";
 
 
-interface ShiftCardParams {
+interface ReduceCardParams {
 	number: number;
-	symbol: string;
+	symbol: string[];
+	reducedTo: string;
+	ruleNumber: number;
 	stack: string[];
 	remainingInput: string;
 }
 
-function ShiftCard({number, symbol, stack, remainingInput}: ShiftCardParams) {
+function ReduceCard({number, symbol, reducedTo, ruleNumber, stack, remainingInput}: ReduceCardParams) {
 
 	// Map the stack to kbds
 	const stackDisplay = stack.map((s) => <Kbd>{s}</Kbd>);
+
+	// Map the symbol to kbds
+	const symbolDisplay = symbol.map((s) => <Kbd>{s}</Kbd>);
 
 	return (
 		<Card data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once={'true'} w={'100%'}>
@@ -32,13 +37,13 @@ function ShiftCard({number, symbol, stack, remainingInput}: ShiftCardParams) {
 						<h2>
 							<AccordionButton>
 								<Box as="span" flex='1' textAlign='left'>
-									{number}) Shift <Kbd>{symbol}</Kbd> onto the stack
+									{number}) Reduce {symbolDisplay} to <Kbd>{reducedTo}</Kbd> in the stack using rule {ruleNumber}
 								</Box>
 								<AccordionIcon />
 							</AccordionButton>
 						</h2>
 						<AccordionPanel pb={4}>
-							<Text fontSize={'md'} align={'left'}>Stack now consists of: {stackDisplay}</Text>
+							<Text fontSize={'md'} align={'left'}>Stack now consists of {stackDisplay}</Text>
 							<Text fontSize={'md'} align={'left'}>Remaining input is: <Kbd>{remainingInput}</Kbd></Text>
 						</AccordionPanel>
 					</AccordionItem>
@@ -49,4 +54,4 @@ function ShiftCard({number, symbol, stack, remainingInput}: ShiftCardParams) {
 
 }
 
-export default ShiftCard;
+export default ReduceCard;

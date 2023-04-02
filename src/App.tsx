@@ -12,6 +12,8 @@ import ShiftCard from "./ShiftCard";
 import ShiftReduceParser from "./ShiftReduceParser";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import ReduceCard from "./ReduceCard";
+import {ShiftStep, ReduceStep} from "./ShiftStep";
 
 function App() {
 
@@ -34,28 +36,24 @@ function App() {
 	}, []);
 
 	let parseGrammar = () => {
-		// setParsingSteps(shiftReduceParser.table.parseGrammar(grammarToParse).join('\n'));
 
-		const calculatedSteps = shiftReduceParser.table.parseGrammar(grammarToParse).join('\n');
-
+		const [calculatedSteps, stepLog] = shiftReduceParser.table.parseGrammar(grammarToParse);
 		let cards = [] as JSX.Element[];
-		let steps = calculatedSteps.split('\n');
 
-		for (let i = 0; i < steps.length; i++) {
-			let step = steps[i];
-			let stepNumber = i + 1;
+		for (let i = 0; i < stepLog.length; i++) {
+			const step = stepLog[i];
+			const stepNumber = i + 1;
 
-			// @ts-ignore
-			let stepText = step.match(/[a-zA-Z]+/g)[step.match(/[a-zA-Z]+/g).length - 1];
-
-			let stack = step.match(/\d+/g) as string[];
-			cards.push(<ShiftCard key={stepNumber} number={stepNumber} symbol={stepText} stack={stack}/>);
+			if (step instanceof ShiftStep) {
+				cards.push(<ShiftCard key={stepNumber} number={stepNumber} symbol={step.itemShifted} stack={step.resultingStack} remainingInput={step.remainingInput}/>);
+			} else if (step instanceof ReduceStep) {
+				cards.push(<ReduceCard key={stepNumber} number={stepNumber} symbol={step.itemReduced} reducedTo={step.reductionResult} ruleNumber={step.ruleNumber} stack={step.resultingStack} remainingInput={step.remainingInput}/>);
+			}
 		}
 
 		parsingStepCardBacklog.current = cards;
 
 		animateParsingSteps();
-
 
 	}
 
@@ -88,9 +86,9 @@ function App() {
 				<VStack w={'30%'} spacing={'30px'}>
 					<VStack w={'100%'}>
 						<Text fontSize={'lg'}>Input Grammar</Text>
-						<Textarea boxShadow='dark-lg' value={inputGrammar} onChange={(e) => setInputGrammar(e.target.value)} resize={'vertical'}/>
+						<Textarea boxShadow='dark-lg' value={inputGrammar} isDisabled onChange={(e) => setInputGrammar(e.target.value)} resize={'vertical'}/>
 					</VStack>
-					<Button onClick={() => setShiftReduceParser(new ShiftReduceParser(inputGrammar.split('\n')))} colorScheme='blue'>Generate Parser Table</Button>
+					<Button isDisabled onClick={() => setShiftReduceParser(new ShiftReduceParser(inputGrammar.split('\n')))} colorScheme='blue'>Generate Parser Table</Button>
 				</VStack>
 
 				<VStack w={'30%'} spacing={'30px'}>
@@ -106,15 +104,15 @@ function App() {
 			<HStack align={'top'} justify={'space-evenly'} w={'100%'} p={'5%'} spacing={'50px'}>
 
 				<VStack w={'50%'} >
-					<Text fontSize={'lg'}>Parsing Steps</Text>
-					{/*<Textarea boxShadow='dark-lg' w={'60%'} h={'220px'} value={parsingSteps} isDisabled resize={'vertical'}/>*/}
 
-					{/*<ShiftCard number={1} symbol={"id"} stack={["0", "id"]} />*/}
+					<Text fontSize={'lg'}>Parsing Steps</Text>
+
 					{parsingStepCards}
 
 				</VStack>
 
 				<VStack w={'50%'}>
+
 					<Text fontSize={'lg'}>Parser Table</Text>
 
 					<ParserTable table={shiftReduceParser.table}/>

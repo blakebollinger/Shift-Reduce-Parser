@@ -1,3 +1,4 @@
+import {ShiftStep, ReduceStep} from "./ShiftStep";
 
 class State {
 
@@ -132,10 +133,16 @@ export class ParserTableModel {
 		let input: string = grammar.replace(/\s/g, "");
 		let output: string[] = [];
 
+		let stepNumber: number = 0;
+
 		let nextAction: string = "";
 		let currentState: number = 0;
 
+		let stepLog: any[] = [];
+
 		while (nextAction !== "accept") {
+
+			stepNumber++;
 
 			const nextToken = getNextToken(input);
 
@@ -157,6 +164,9 @@ export class ParserTableModel {
 
 				// Log the action.
 				console.log("Shifted \"" + nextToken + "\" to state " + getAction(parseInt(stack[stack.length - 3]), nextToken).substring(1) + ".");
+
+				const step = new ShiftStep(stepNumber, nextToken, stack.slice(0), input);
+				stepLog.push(step);
 
 			} else {
 
@@ -189,6 +199,9 @@ export class ParserTableModel {
 				// Log the action.
 				console.log("Reduced \"" + itemToReduce.join(" ") + "\" to \"" + leftSide + "\".");
 
+				const step = new ReduceStep(stepNumber, itemToReduce, leftSide, ruleNumber, stack.slice(0), input)
+				stepLog.push(step);
+
 			}
 
 			// Add the current stack to the output.
@@ -201,7 +214,7 @@ export class ParserTableModel {
 
 		console.log("Parsing successful!");
 
-		return output;
+		return [output, stepLog];
 
 	}
 
