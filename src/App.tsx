@@ -5,7 +5,7 @@ import {
 	Textarea,
 	VStack,
 	Button,
-	HStack
+	HStack, Icon, Link
 } from "@chakra-ui/react";
 import ParserTable from "./ParserTable";
 import ShiftCard from "./ShiftCard";
@@ -14,6 +14,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ReduceCard from "./ReduceCard";
 import {ShiftStep, ReduceStep} from "./ShiftStep";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons'
+import {faEnvelope, faLink} from "@fortawesome/free-solid-svg-icons";
 
 function App() {
 
@@ -81,12 +84,30 @@ function App() {
 		<div className="App">
 			<Text>Welcome to my Shift Reduce Parser!</Text>
 
+			<Text paddingTop={'20px'} fontSize={'md'}> Created by: Blake Bollinger </Text>
+
+			<HStack justify={'center'}>
+				<Link href={'https://github.com/blakebollinger'} isExternal>
+					<Icon as={FontAwesomeIcon} icon={faGithub} boxSize={6} _hover={{ color: "blue.400" }}/>
+				</Link>
+				<Link href={'mailto:blake@blakebollinger.dev'} isExternal>
+					<Icon as={FontAwesomeIcon} icon={faEnvelope} boxSize={6} _hover={{ color: "blue.400" }}/>
+				</Link>
+				<Link href={'https://www.linkedin.com/in/blake-bollinger/'} isExternal>
+					<Icon as={FontAwesomeIcon} icon={faLinkedin} boxSize={6} _hover={{ color: "blue.400" }}/>
+				</Link>
+				<Link href={'https://blakebollinger.dev/'} isExternal>
+					<Icon as={FontAwesomeIcon} icon={faLink} boxSize={6} _hover={{ color: "blue.400" }}/>
+				</Link>
+			</HStack>
+
+
 			<HStack p={'5%'} h={'20%'} align={'top'} justify={'center'} spacing={'50px'}>
 
 				<VStack w={'30%'} spacing={'30px'}>
 					<VStack w={'100%'}>
 						<Text fontSize={'lg'}>Input Grammar</Text>
-						<Textarea boxShadow='dark-lg' value={inputGrammar} isDisabled onChange={(e) => setInputGrammar(e.target.value)} resize={'vertical'}/>
+						<Textarea h={'15vh'} boxShadow='dark-lg' value={inputGrammar} isDisabled onChange={(e) => setInputGrammar(e.target.value)} resize={'vertical'}/>
 					</VStack>
 					<Button isDisabled onClick={() => setShiftReduceParser(new ShiftReduceParser(inputGrammar.split('\n')))} colorScheme='blue'>Generate Parser Table</Button>
 				</VStack>
@@ -94,7 +115,7 @@ function App() {
 				<VStack w={'30%'} spacing={'30px'}>
 					<VStack w={'100%'}>
 						<Text fontSize={'lg'}>Grammar to Parse</Text>
-						<Textarea boxShadow='dark-lg' value={grammarToParse} onChange={(e) => setGrammarToParse(e.target.value)} resize={'vertical'}/>
+						<Textarea h={'15vh'} boxShadow='dark-lg' value={grammarToParse} onChange={(e) => setGrammarToParse(e.target.value)} resize={'vertical'}/>
 					</VStack>
 					<Button onClick={parseGrammar} colorScheme='blue'>Parse</Button>
 				</VStack>
