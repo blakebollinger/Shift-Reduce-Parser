@@ -21,7 +21,7 @@ interface ShiftCardParams {
 function ShiftCard({number, symbol, stack}: ShiftCardParams) {
 
 	return (
-		<Card w={'100%'}>
+		<Card data-aos="fade-up" data-aos-anchor-placement="top-bottom" w={'100%'}>
 			<CardBody>
 				<Accordion allowMultiple>
 					<AccordionItem border='none' _hover={{ bg: "gray.500", boxShadow: 'none'}}>

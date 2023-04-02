@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import './App.css';
 import {
 	Text,
@@ -10,6 +10,8 @@ import {
 import ParserTable from "./ParserTable";
 import ShiftCard from "./ShiftCard";
 import ShiftReduceParser from "./ShiftReduceParser";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
 
@@ -26,6 +28,10 @@ function App() {
 	const parsingStepCardBacklog = useRef([] as JSX.Element[]);
 	let cardHolder = [] as JSX.Element[];
 	const [parsingStepCards, setParsingStepCards] = useState([] as JSX.Element[]);
+
+	useEffect(() => {
+		AOS.init({duration: 500});
+	}, []);
 
 	let parseGrammar = () => {
 		// setParsingSteps(shiftReduceParser.table.parseGrammar(grammarToParse).join('\n'));
