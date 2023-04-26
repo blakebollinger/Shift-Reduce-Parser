@@ -1,7 +1,7 @@
 
 # Shift-Reduce-Parser
 
-This repository contains a web implementation of a shift-reduce parser.
+This repository contains a web implementation of a shift-reduce parser. You can view the parser live at https://srp.blakebollinger.dev
 
 ## What is a Shift-Reduce Parser?
 
@@ -13,7 +13,15 @@ The parser continues to alternate between these two steps until either all input
 
 ## How to Use
 
-In the project directory, you can run:
+### Prerequisites
+
+This project requires [Node.js](https://nodejs.org/en/) to be installed on your machine.
+
+After Node.js is installed, you can run the following commands in the project directory:
+
+### `npm install`
+
+This will install all the dependencies required to run the project.
 
 ### `npm start`
 
@@ -28,4 +36,4 @@ You will also see any lint errors in the console.
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-
+(Note: The output of this folder can be found at https://srp.blakebollinger.dev)
