@@ -59,6 +59,9 @@ function App() {
 			setParsingStepCards([]);
 			return;
 		}
+
+		toast.closeAll()
+
 		let cards = [] as JSX.Element[];
 
 		for (let i = 0; i < stepLog.length; i++) {
