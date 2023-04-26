@@ -8,12 +8,12 @@ interface RTable {
 
 function ParserTable({table}: RTable) {
 
-	const rows = table.states.map((state) => {
+	const rows = table.states.map((state, i) => {
 
 		const actions = [];
 		// For each key in the actions list, create a new td with the value
 		for (const value of Object.values(state.action)) {
-			actions.push(<Td>{value}</Td>)
+			actions.push(<Td key={Math.random()}>{value}</Td>)
 		}
 
 		const gotoLabels = [];
@@ -21,13 +21,13 @@ function ParserTable({table}: RTable) {
 		for (const value of Object.values(state.goTo)) {
 
 			if (value === -1) {
-				gotoLabels.push(<Td></Td>)
+				gotoLabels.push(<Td key={Math.random()}></Td>)
 			} else
-			gotoLabels.push(<Td>{value}</Td>)
+			gotoLabels.push(<Td key={Math.random()}>{value}</Td>)
 		}
 
 		return (
-			<Tr>
+			<Tr key={i}>
 				<Td>{state.state}</Td>
 				{actions}
 				<Td></Td>
@@ -39,10 +39,10 @@ function ParserTable({table}: RTable) {
 	});
 
 	// Make a list that contains all the action ids
-	const actionIds = table.actionIds.map((id) => {
+	const actionIds = table.actionIds.map((id, i) => {
 
 		return (
-			<Td>
+			<Td key={i}>
 				{id}
 			</Td>
 		)
@@ -50,10 +50,10 @@ function ParserTable({table}: RTable) {
 	});
 
 	// Make a list that contains all the goto ids
-	const gotoIds = table.goToIds.map((id) => {
+	const gotoIds = table.goToIds.map((id, i) => {
 
 		return (
-			<Td>
+			<Td key={i}>
 				{id}
 			</Td>
 		)

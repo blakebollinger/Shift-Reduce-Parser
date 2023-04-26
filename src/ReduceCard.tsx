@@ -24,10 +24,10 @@ interface ReduceCardParams {
 function ReduceCard({number, symbol, reducedTo, ruleNumber, stack, remainingInput}: ReduceCardParams) {
 
 	// Map the stack to kbds
-	const stackDisplay = stack.map((s) => <Kbd>{s}</Kbd>);
+	const stackDisplay = stack.map((s) => <Kbd key={Math.random()}>{s}</Kbd>);
 
 	// Map the symbol to kbds
-	const symbolDisplay = symbol.map((s) => <Kbd>{s}</Kbd>);
+	const symbolDisplay = symbol.map((s) => <Kbd key={Math.random()}>{s}</Kbd>);
 
 	return (
 		<Card data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once={'true'} w={'100%'}>

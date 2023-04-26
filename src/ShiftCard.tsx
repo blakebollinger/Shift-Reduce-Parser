@@ -22,7 +22,7 @@ interface ShiftCardParams {
 function ShiftCard({number, symbol, stack, remainingInput}: ShiftCardParams) {
 
 	// Map the stack to kbds
-	const stackDisplay = stack.map((s) => <Kbd>{s}</Kbd>);
+	const stackDisplay = stack.map((s) => <Kbd key={Math.random()}>{s}</Kbd>);
 
 	return (
 		<Card data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-once={'true'} w={'100%'}>

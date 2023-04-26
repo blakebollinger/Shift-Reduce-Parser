@@ -5,7 +5,7 @@ import {
 	Textarea,
 	VStack,
 	Button,
-	HStack, Icon, Link
+	HStack, Icon, Link, useToast
 } from "@chakra-ui/react";
 import ParserTable from "./ParserTable";
 import ShiftCard from "./ShiftCard";
@@ -19,6 +19,8 @@ import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons'
 import {faEnvelope, faLink} from "@fortawesome/free-solid-svg-icons";
 
 function App() {
+
+	const toast = useToast()
 
 	const [inputGrammar, setInputGrammar] = useState("" +
 		"E -> E + T\n" +
@@ -40,7 +42,23 @@ function App() {
 
 	let parseGrammar = () => {
 
-		const [calculatedSteps, stepLog] = shiftReduceParser.table.parseGrammar(grammarToParse);
+		let stepLog = [] as (ShiftStep | ReduceStep)[];
+
+		// Check if the parsing has failed and present the toast
+		try {
+			[, stepLog] = shiftReduceParser.table.parseGrammar(grammarToParse);
+		} catch (e) {
+			toast({
+				title: 'Parsing Failed.',
+				description: "The grammar was unable to be parsed using the input grammar.",
+				position: 'bottom-right',
+				status: 'error',
+				duration: 9000,
+				isClosable: true,
+			})
+			setParsingStepCards([]);
+			return;
+		}
 		let cards = [] as JSX.Element[];
 
 		for (let i = 0; i < stepLog.length; i++) {
@@ -49,8 +67,10 @@ function App() {
 
 			if (step instanceof ShiftStep) {
 				cards.push(<ShiftCard key={stepNumber} number={stepNumber} symbol={step.itemShifted} stack={step.resultingStack} remainingInput={step.remainingInput}/>);
-			} else if (step instanceof ReduceStep) {
-				cards.push(<ReduceCard key={stepNumber} number={stepNumber} symbol={step.itemReduced} reducedTo={step.reductionResult} ruleNumber={step.ruleNumber} stack={step.resultingStack} remainingInput={step.remainingInput}/>);
+			} else {
+				cards.push(<ReduceCard key={stepNumber} number={stepNumber} symbol={step.itemReduced}
+				                       reducedTo={step.reductionResult} ruleNumber={step.ruleNumber}
+				                       stack={step.resultingStack} remainingInput={step.remainingInput}/>);
 			}
 		}
 
@@ -63,9 +83,7 @@ function App() {
 	const animateParsingSteps = () => {
 
 		new Promise(r => setTimeout(r, 30)).then(() => {
-
-			console.log("Adding: " + parsingStepCardBacklog.current[0].props.number);
-
+			
 			setParsingStepCards([...cardHolder, parsingStepCardBacklog.current[0]]);
 
 			cardHolder.push(parsingStepCardBacklog.current[0]);

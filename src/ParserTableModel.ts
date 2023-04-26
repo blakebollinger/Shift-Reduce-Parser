@@ -127,8 +127,6 @@ export class ParserTableModel {
 
 		};
 
-		console.log("Parsing grammar: \"" + grammar + "\"");
-
 		let stack: string[] = ["0"];
 		let input: string = grammar.replace(/\s/g, "");
 		let output: string[] = [];
@@ -162,9 +160,6 @@ export class ParserTableModel {
 				// Remove the next token from the input.
 				input = input.substring(nextToken.length);
 
-				// Log the action.
-				console.log("Shifted \"" + nextToken + "\" to state " + getAction(parseInt(stack[stack.length - 3]), nextToken).substring(1) + ".");
-
 				const step = new ShiftStep(stepNumber, nextToken, stack.slice(0), input);
 				stepLog.push(step);
 
@@ -196,9 +191,6 @@ export class ParserTableModel {
 				// Update the current state.
 				currentState = parseInt(stack[stack.length - 1]);
 
-				// Log the action.
-				console.log("Reduced \"" + itemToReduce.join(" ") + "\" to \"" + leftSide + "\".");
-
 				const step = new ReduceStep(stepNumber, itemToReduce, leftSide, ruleNumber, stack.slice(0), input)
 				stepLog.push(step);
 
@@ -212,7 +204,6 @@ export class ParserTableModel {
 
 		}
 
-		console.log("Parsing successful!");
 
 		return [output, stepLog];
 
